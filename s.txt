@@ -1,0 +1,51 @@
+stylesccs (revisar Carpeta visuales)
+
+Poner Varios locales
+Login DNI - SI repetir en semana, no deja entrar
+Peluuero con turno ocupado - no permiir
+Turnos cada 30min
+Dni mayor a 5
+fotos para mostrar al peluqero al pickear
+2 pantallas index y turnero
+Agregar iconos visuales o fotos alertas, confirmación
+Imprimir un pdf con la confirmacion
+Mostrar Dias Disponible como clase 1 video coderhouse 
+
+
+
+
+
+Hechos:
+
+index
+Campo DNI e ingreso
+Guardar Dni en localst
+Revisar si teien turno "Avisar de qe lo tiene" - Ir al turnero sino
+
+Turnero
+(agregar cartas con fotos de los pelus)
+Seleccionar Fecha de Mar a Sab
+Seleccionar Fecha cada 30 min ----- IMPORTANTE (Ver de arreglar que solo te deje cada 30, hay un alerta ahora) 
+Seleccionar Peluquero - NO REPETIR PELUQERO Y HORARIO en caso de qe sean verdaderos avisar ----- IMPORTANTE ( ARREGLAR EL FORMATO DE LA SELECCION)
+Guardar en localSt
+
+
+AUtenti
+DNI mayor a 5 
+No permitir uso de DNI no aparece botón
+LLEva el dni al turnero
+
+Peluquero
+ID;Nombre;Escpecialidads(Listas);foto;
+
+
+Almacenamiento
+ClienteDNI
+turnos (Fecha,Hora,Local;Peluquero,Nombre,Tel,DNI,FOto)
+
+
+Style
+Buscar Fondo
+Box en medio
+Boton
+Carta de peluqueros
