@@ -1,5 +1,7 @@
+
+/* === Card medio de pantalla y estilo y color === */
 body {
-  margin: 0;
+  margin: 0; 
   font-family: system-ui, sans-serif;
   background: #0f172a;
   color: #e2e8f0;

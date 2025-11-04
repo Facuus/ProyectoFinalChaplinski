@@ -46,24 +46,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     const telefono = document.getElementById('telefono').value.trim();
 
     if (!fecha || !hora || !peluquero || !nombre || !telefono) {
-      return Swal.fire('⚠️ Campos incompletos', 'Completá todos los campos.', 'warning');
+      return Swal.fire(' Campos incompletos', 'Completá todos los campos.', 'warning');
     }
 
     const dia = dayjs(fecha).day(); // 0=Domingo, 1=Lunes...
     if (dia === 1) {
-      return Swal.fire('❌ Día inválido', 'Solo se puede reservar de martes a domingo.', 'error');
+      return Swal.fire(' Dia No laborable', 'Solo se puede reservar de martes a domingo.', 'error');
     }
 
     // Verificar si el peluquero ya tiene turno
     const ocupado = turnos.some(t => t.fecha === fecha && t.hora === hora && t.peluquero === peluquero);
     if (ocupado) {
-      return Swal.fire('⛔ Turno ocupado', `${peluquero} ya tiene turno a esa hora.`, 'error');
+      return Swal.fire(' Turno ocupado', `${peluquero} ya tiene turno a esa hora.`, 'error');
     }
 
-    // Verificar si el mismo DNI tiene un turno esta semana
+    // Verificar si el mismo DNI tiene un turno esta en lasemana
     const yaReservo = turnos.some(t => t.dni === dni && dayjs(t.fecha).isSame(fecha, 'week'));
     if (yaReservo) {
-      return Swal.fire('🚫 Restricción', 'Ya tenés un turno esta semana.', 'warning');
+      return Swal.fire(' ATENCION', 'Ya tenrs un turno esta semana.', 'warning');
     }
 
     // Guardar el turno
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     localStorage.setItem('turnos', JSON.stringify(turnos));
 
     Swal.fire({
-      title: '✅ Turno reservado',
+      title: ' Turno reservado',
       text: `Turno con ${peluquero} el ${fecha} a las ${hora}.`,
       icon: 'success',
       confirmButtonText: 'Aceptar'
