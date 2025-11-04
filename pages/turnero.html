@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Turnero - Proyecto Final Chaplinski</title>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <script defer src="../libs/dayjs.min.js"></script>
+  <script defer src="../libs/sweetalert2.all.min.js"></script>
+  <script defer src="../assets/js/utils.js"></script>
+  <script defer src="../assets/js/turnero.js"></script>
+</head>
+<body class="container">
+  <main class="card">
+    <h1>💈 Reservar Turno</h1>
+    <p id="dniDisplay"></p>
+
+    <form id="turnoForm">
+      <div class="form-row">
+        <label>Nombre</label>
+        <input type="text" id="nombre" required />
+      </div>
+
+      <div class="form-row">
+        <label>Teléfono</label>
+        <input type="tel" id="telefono" required />
+      </div>
+
+      <div class="form-row">
+        <label>Día</label>
+        <input type="date" id="fecha" required />
+      </div>
+
+      <div class="form-row">
+        <label>Hora</label>
+        <input type="time" id="hora" min="09:00" max="19:00" step="1800" required />
+      </div>
+
+      <div class="form-row">
+        <label>Peluquero</label>
+        <select id="peluqueroSelect" required></select>
+      </div>
+
+      <button type="submit" class="btn">Reservar Turno</button>
+    </form>
+
+    <div id="listaPeluqueros"></div>
+  </main>
+</body>
+</html>
