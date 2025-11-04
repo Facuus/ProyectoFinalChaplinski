@@ -1,3 +1,5 @@
+ <!-- Index biblia -->  
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -6,12 +8,69 @@
   <title>Proyecto Final Chaplinski</title>
   <link rel="stylesheet" href="./assets/css/styles.css" />
   <script defer src="./assets/js/auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
+ <!-- Termina Index biblia  -->  
+
+
+
 <body class="container">
   <main class="card">
-    <h1>💈 Peluquería Chaplinski</h1>
-    <p>Reservá tu turno de martes a domingo con nuestros profesionales.</p>
-    <a href="./pages/login.html" class="btn">Ingresar con DNI</a>
+    <h1> Peluquerias </h1>
+    <p>Reserva tu turno de martes a domingo con nuestros profesionales.</p>
+
+    <form id="dniForm">
+      <input id="dni" type="number" placeholder="Ingresa DNI" required />
+      <button type="submit" class="btn">Ingresar</button>
+    </form>
+
+    <p id="turnoActual" style="margin-top:12px; color:#a7f3d0;"></p>
   </main>
+
+
+
+
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dniForm = document.getElementById('dniForm');
+    const turnoActual = document.getElementById('turnoActual');
+
+    dniForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const dni = document.getElementById('dni').value.trim();
+      if (dni.length < 6) {
+        Swal.fire('DNI no valido', 'Ingresa  DNI valido.', 'error');
+        return;
+      }
+
+      // Guardar el DNI
+      localStorage.setItem('clienteDNI', dni);
+
+      // Buscar  siya tiene turno asignado
+      const turnos = JSON.parse(localStorage.getItem('turnos')) || [];
+      const turnoCliente = turnos.find(t => t.dni === dni);
+
+      if (turnoCliente) {
+        Swal.fire({
+          title: ' Ya tenés un turno reservado para esta semanaas',
+          html: `
+            <b>Día:</b> ${turnoCliente.fecha}<br>
+            <b>Hora:</b> ${turnoCliente.hora}<br>
+            <b>Peluquero:</b> ${turnoCliente.peluquero}
+          `,
+          icon: 'info',
+          confirmButtonText: 'Aceptar'
+        });
+
+        turnoActual.textContent = `Tenes un turno con ${turnoCliente.peluquero} el ${turnoCliente.fecha} a las ${turnoCliente.hora}.`;
+      } else {
+        // Si no tiene turno, ir al turnero
+        window.location.href = './pages/turnero.html';
+      }
+    });
+  });
+  </script>
 </body>
 </html>

@@ -14,16 +14,17 @@ body {
   max-width: 420px;
   width: 100%;
   box-shadow: 0 8px 25px #00000060;
+  text-align: center;
 }
-h1,h2 { text-align: center; }
-.form-row { margin-bottom: 14px; display: flex; flex-direction: column; }
-input, select {
+input {
   padding: 10px;
+  width: 100%;
   border-radius: 8px;
   border: none;
   outline: none;
   background: #334155;
   color: #fff;
+  margin-bottom: 10px;
 }
 .btn {
   display: inline-block;
@@ -36,5 +37,47 @@ input, select {
   border-radius: 10px;
   cursor: pointer;
 }
-.btn:hover { filter: brightness(1.1); }
-.container { width: 100%; padding: 20px; }
+.btn:hover {
+  filter: brightness(1.1);
+}
+
+
+
+
+
+
+
+
+
+/* === cuadirtos para los perfiles peluqeros === */
+.peluqueros-container {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+.peluquero-card {
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 5px;
+  width: 80px;
+  text-align: center;
+  color: #e2e8f0;
+  box-shadow: 0 4px 10px #00000040;
+}
+.peluquero-card h3 {
+  margin: 6px 0 4px;
+  font-size: 15px;
+  color: #a7f3d0;
+}
+.peluquero-img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.especialidades {
+  font-size: 12px;
+  color: #cbd5e1;
+}
