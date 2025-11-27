@@ -1,20 +1,39 @@
-// turnero.js - Manejo de reservas con fotos y validaciones
-document.addEventListener('DOMContentLoaded', async () => {
-  const form = document.getElementById('turnoForm');
-  const select = document.getElementById('peluqueroSelect');
-  const contenedor = document.getElementById('listaPeluqueros');
-  const dni = localStorage.getItem('clienteDNI');
-  let turnos = JSON.parse(localStorage.getItem('turnos')) || [];
+// ======================================================
+// turnero.js 
+// ======================================================
 
-  // Mostrar el DNI activo
-  document.getElementById('dniDisplay').textContent = `DNI actual: ${dni}`;
+// Elementos del formulario
+const form = document.getElementById('turnoForm');
+const select = document.getElementById('peluqueroSelect');
+const contenedor = document.getElementById('listaPeluqueros');
 
+const dniCliente = localStorage.getItem('clienteDNI');
+
+// Cargar turnos previos desde localStorage
+let turnos = JSON.parse(localStorage.getItem('turnos')) || [];
+
+// ------------------------------------------------------
+// Validar  DNI 
+// ------------------------------------------------------
+if (!dniCliente) {
+  window.location.href = '../index.html';
+}
+
+// Mostrar DNI en pantalla
+document.getElementById('dniDisplay').textContent = `DNI actual: ${dniCliente}`;
+
+// ------------------------------------------------------
+// Cargar peluqueros desde JSON
+// ------------------------------------------------------
+async function cargarPeluqueros() {
   try {
     const res = await fetch('../data/peluqueros.json');
+    if (!res.ok) throw new Error("No se pudo leer el archivo JSON");
+
     const peluqueros = await res.json();
 
-    // Renderizar tarjetas visuales
     peluqueros.forEach(p => {
+      // Tarjeta visual
       const card = document.createElement('div');
       card.className = 'peluquero-card';
       card.innerHTML = `
@@ -24,60 +43,86 @@ document.addEventListener('DOMContentLoaded', async () => {
       `;
       contenedor.appendChild(card);
 
-      // Llenar el selector también
+      // Opción del select
       const option = document.createElement('option');
       option.value = p.nombre;
       option.textContent = `${p.nombre} — ${p.especialidades.join(', ')}`;
       select.appendChild(option);
     });
-  } catch (error) {
+
+  } catch (err) {
+    console.error(err);
     Swal.fire('Error', 'No se pudieron cargar los peluqueros.', 'error');
-    return;
+  }
+}
+
+// Llamar a la función
+cargarPeluqueros();
+
+
+// Envío del formulario del turno
+// ------------------------------------------------------
+form.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const fecha = document.getElementById('fecha').value;
+  const hora = document.getElementById('hora').value;
+  const nombre = document.getElementById('nombre').value.trim();
+  const telefono = document.getElementById('telefono').value.trim();
+  const peluquero = select.value;
+
+  // Validación
+  if (!fecha || !hora || !nombre || !telefono || !peluquero) {
+    return Swal.fire('Campos incompletos', 'Completá todos los campos.', 'warning');
   }
 
-  // Envío del formulario
-  form.addEventListener('submit', e => {
-    e.preventDefault();
+  // No permitir lunes (1 = lunes)
+  const diaSemana = dayjs(fecha).day();
+  if (diaSemana === 1) {
+    return Swal.fire('Día no laborable', 'Solo se puede reservar de martes a domingo.', 'error');
+  }
 
-    const fecha = document.getElementById('fecha').value;
-    const hora = document.getElementById('hora').value;
-    const peluquero = select.value;
-    const nombre = document.getElementById('nombre').value.trim();
-    const telefono = document.getElementById('telefono').value.trim();
+  // Verificar si el peluquero ya tiene un turno
+  const ocupado = turnos.some(t =>
+    t.fecha === fecha &&
+    t.hora === hora &&
+    t.peluquero === peluquero
+  );
 
-    if (!fecha || !hora || !peluquero || !nombre || !telefono) {
-      return Swal.fire(' Campos incompletos', 'Completá todos los campos.', 'warning');
-    }
+  if (ocupado) {
+    return Swal.fire('Turno ocupado', `${peluquero} ya tiene un turno a esa hora.`, 'error');
+  }
 
-    const dia = dayjs(fecha).day(); // 0=Domingo, 1=Lunes...
-    if (dia === 1) {
-      return Swal.fire(' Dia No laborable', 'Solo se puede reservar de martes a domingo.', 'error');
-    }
+  // Verificar que el cliente no reserve 2 veces en la misma semana
+  const yaReservo = turnos.some(t =>
+    t.dni === dniCliente && dayjs(t.fecha).isSame(fecha, 'week')
+  );
 
-    // Verificar si el peluquero ya tiene turno
-    const ocupado = turnos.some(t => t.fecha === fecha && t.hora === hora && t.peluquero === peluquero);
-    if (ocupado) {
-      return Swal.fire(' Turno ocupado', `${peluquero} ya tiene turno a esa hora.`, 'error');
-    }
+  if (yaReservo) {
+    return Swal.fire('Atención', 'Ya tenés un turno esta semana.', 'warning');
+  }
 
-    // Verificar si el mismo DNI tiene un turno esta en lasemana
-    const yaReservo = turnos.some(t => t.dni === dni && dayjs(t.fecha).isSame(fecha, 'week'));
-    if (yaReservo) {
-      return Swal.fire(' ATENCION', 'Ya tenrs un turno esta semana.', 'warning');
-    }
+  // Nuevo turno
+  const nuevoTurno = {
+    fecha,
+    hora,
+    peluquero,
+    nombre,
+    telefono,
+    dni: dniCliente
+  };
 
-    // Guardar el turno
-    const nuevoTurno = { fecha, hora, peluquero, nombre, telefono, dni };
-    turnos.push(nuevoTurno);
-    localStorage.setItem('turnos', JSON.stringify(turnos));
+  // Guardar turno
+  turnos.push(nuevoTurno);
+  localStorage.setItem('turnos', JSON.stringify(turnos));
 
-    Swal.fire({
-      title: ' Turno reservado',
-      text: `Turno con ${peluquero} el ${fecha} a las ${hora}.`,
-      icon: 'success',
-      confirmButtonText: 'Aceptar'
-    }).then(() => {
-      window.location.href = '../index.html';
-    });
+  // Confirma
+  Swal.fire({
+    title: 'Turno reservado',
+    text: `Turno con ${peluquero} el ${fecha} a las ${hora}.`,
+    icon: 'success',
+    confirmButtonText: 'Aceptar'
+  }).then(() => {
+    window.location.href = '../index.html';
   });
 });

@@ -1,16 +1,15 @@
-// auth.js
-// guarda "dni" ,valida
-document.addEventListener('DOMContentLoaded', () => {
-  const dni = localStorage.getItem('clienteDNI');
-  const path = window.location.pathname;
+// auth.js — valida acceso a páginas protegidas
 
+const dni = localStorage.getItem('clienteDNI');
+const path = window.location.pathname;
 
-  // lo devulve al logn
-  if (path.includes('turnero.html') && !dni) {
-    window.location.href = './login.html';
-  }
+// Si intenta acceder al turnero sin DNI, volver al index
+if (path.includes('turnero.html') && !dni) {
+  window.location.href = '../index.html';
+}
 
-  if (document.getElementById('dniDisplay')) {
-    document.getElementById('dniDisplay').textContent = `DNI actual: ${dni}`;
-  }
-});
+// Si existe dniDisplay, mostrar DNI actual
+const dniDisplay = document.getElementById('dniDisplay');
+if (dniDisplay && dni) {
+  dniDisplay.textContent = `DNI actual: ${dni}`;
+}

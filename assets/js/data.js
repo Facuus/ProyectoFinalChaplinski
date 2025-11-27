@@ -1,0 +1,20 @@
+const PELUQUEROS = [
+  {
+    id: 1,
+    nombre: "Pelu1",
+    especialidades: ["Peluquería", "Colorimetría"],
+    imagen: "../assets/img/Pelu1.jpg"
+  },
+  {
+    id: 2,
+    nombre: "Pelu2",
+    especialidades: ["Cortes", "Tinturas"],
+    imagen: "../assets/img/Pelu2.jpg"
+  },
+  {
+    id: 3,
+    nombre: "Pelu3",
+    especialidades: ["Colorimetría", "Cortes Unisex"],
+    imagen: "../assets/img/Pelu3.jpg"
+  }
+];

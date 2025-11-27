@@ -4,26 +4,24 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login - Proyecto Final Chaplinski</title>
-  <link rel="stylesheet" href="../assets/css/styles.css" />
-  <script defer src="../assets/js/auth.js"></script>
+
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+
+  <!-- Librería de alertas -->
+  <script defer src="./libs/sweetalert2.all.min.js"></script>
+
+  <!-- Script del login (nuevo) -->
+  <script defer src="./assets/js/index.js"></script>
 </head>
-<body class="container">
+<body>
   <main class="card">
-    <h2>Ingresá tu DNI</h2>
+    <h2>Peluquerías</h2>
+    <p>Ingresá tu DNI para continuar</p>
+
     <form id="loginForm">
-      <input id="dni" type="number" placeholder="Tu DNI" required />
+      <input id="dniInput" type="number" placeholder="Ingresa DNI" required />
       <button type="submit" class="btn">Ingresar</button>
     </form>
   </main>
-
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', e => {
-      e.preventDefault();
-      const dni = document.getElementById('dni').value.trim();
-      if (dni.length < 6) return alert("DNI inválido");
-      localStorage.setItem('clienteDNI', dni);
-      window.location.href = './turnero.html';
-    });
-  </script>
 </body>
 </html>

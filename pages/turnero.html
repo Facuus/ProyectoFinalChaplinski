@@ -4,21 +4,32 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Turnero - Peluquería Chaplinski</title>
+
   <link rel="stylesheet" href="../assets/css/styles.css" />
+
+  <!-- Librerías -->
   <script defer src="../libs/dayjs.min.js"></script>
   <script defer src="../libs/sweetalert2.all.min.js"></script>
-  <script defer src="../assets/js/utils.js"></script>
+
+  <!-- Datos locales (Peluqueros) -->
+  <script defer src="../assets/js/data.js"></script>
+
+  <!-- Verificación de autenticación -->
+  <script defer src="../assets/js/auth.js"></script>
+
+  <!-- Lógica del turnero -->
   <script defer src="../assets/js/turnero.js"></script>
 </head>
+
 <body class="container">
   <main class="card">
-    <h1> Reservar Turno</h1>
+    <h1>Reservar Turno</h1>
     <p id="dniDisplay"></p>
 
-    <!-- Info de peluqueros -->
     <div id="listaPeluqueros" class="peluqueros-container"></div>
 
     <form id="turnoForm">
+
       <div class="form-row">
         <label>Nombre</label>
         <input type="text" id="nombre" required />
@@ -45,6 +56,7 @@
       </div>
 
       <button type="submit" class="btn">Reservar Turno</button>
+
     </form>
   </main>
 </body>
