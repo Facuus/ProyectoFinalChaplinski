@@ -1,0 +1,1 @@
+Profe por si ve este archivo, yo abro el index desde VS con Alt + O o con el Live Server 
